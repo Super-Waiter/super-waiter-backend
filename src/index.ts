@@ -1,16 +1,35 @@
-import http from "http";
+import express, { Express } from "express";
+import * as dotenv from "dotenv";
+import path from "path";
 
-export const server = http.createServer((req, res) => {
-  res.writeHead(200, { "Content-Type": "application/json" });
-  res.end(
-    JSON.stringify({
-      data: "It Works!",
-    }),
-  );
-});
+dotenv.config({ path: path.resolve(__dirname, "../.env") });
+console.log(path.resolve(__dirname, "../.env"));
+import { sequelize } from "./database";
+import { useMiddlewares } from "./middleware";
 
-const PORT = 3001;
+export const app: Express = express();
+const PORT = process.env.PORT || 3001;
+// const IP = "192.168.1.100";
 
-server.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+useMiddlewares(app);
+
+export async function start() {
+  try {
+    await sequelize.authenticate();
+    await sequelize.sync({ force: true });
+    console.log("Database connection has been established successfully.");
+
+    const server = app.listen(PORT as number, () => {
+      console.log(
+        `⚡️[server]: Server is running at https://localhost:${PORT}`
+      );
+    });
+
+    return server;
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+}
+
+start();
