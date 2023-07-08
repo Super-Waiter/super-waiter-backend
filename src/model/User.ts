@@ -24,7 +24,7 @@ export class User extends Model {
   lastName!: string;
 
   @HasMany(() => Room, {
-    foreignKey: "roomId",
+    foreignKey: "userId",
     as: "rooms",
   })
   rooms!: RoomType[];

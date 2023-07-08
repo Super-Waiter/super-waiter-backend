@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 // import { Room } from "../model/Room";
 import { User } from "../model/User";
+import { Room } from "../model/Room";
 // import firebaseAdmin from "../firebase";
 
 // const firebaseAuth = firebaseAdmin.auth();
@@ -10,15 +11,15 @@ export const createUser = async (req: Request, res: Response) => {
     User.options.freezeTableName = true;
 
     const existingUser = await User.findOne({
-      where: { phone: req.body.phone },
+      where: { firstName: req.body.firstName },
     });
 
     if (existingUser) {
       return res.status(400).json({
         message: {
-          en: "User already exists",
-          ru: "Пользователь уже существует",
-          uz: "Foydalanuvchi allaqachon mavjud",
+          en: "User already exists with this first name",
+          ru: "Пользователь уже существует с таким именем",
+          uz: "Foydalanuvchi allaqachon mavjud bu ism bilan",
         },
       });
     }
@@ -81,7 +82,7 @@ export const updateUserByPhoneNumber = async (req: Request, res: Response) => {
 
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
-    const users = await User.findAll({ include: [User] });
+    const users = await User.findAll({ include: [Room] });
 
     res.status(200).json(users);
   } catch (error) {
@@ -108,7 +109,7 @@ export const removeUserById = async (req: Request, res: Response) => {
   try {
     // const user = await User.findByPk(req.params.id);
     await User.destroy({ where: { id: req.params.id } });
-    await User.destroy({ where: { userId: req.params.id } });
+    await User.destroy({ where: { roomUser: req.params.id } });
 
     // if (user) {
     //   const firebaseUser = await firebaseAuth.getUserByPhoneNumber(user.phone);

@@ -25,7 +25,7 @@ export const createFakeData = async (req: Request, res: Response) => {
   }
 };
 
-export const createItem = async (req: Request, res: Response) => {
+export const createRoom = async (req: Request, res: Response) => {
   try {
     const room = await Room.create(req.body);
 
@@ -36,11 +36,11 @@ export const createItem = async (req: Request, res: Response) => {
   }
 };
 
-export const getItemsBySearch = async (req: Request, res: Response) => {
+export const getRoomsBySearch = async (req: Request, res: Response) => {
   const { searchText } = req.query;
 
   try {
-    const items = await Room.findAll({
+    const rooms = await Room.findAll({
       where: {
         [Op.or]: [
           {
@@ -55,10 +55,10 @@ export const getItemsBySearch = async (req: Request, res: Response) => {
           },
         ],
       },
-      include: [{ model: User, as: "itemUser" }],
+      include: [{ model: User, as: "roomUser" }],
     });
 
-    res.status(200).json(items);
+    res.status(200).json(rooms);
   } catch (error) {
     res.status(400).json({ msg: "error" });
 
@@ -66,7 +66,21 @@ export const getItemsBySearch = async (req: Request, res: Response) => {
   }
 };
 
-export const getItems = async (req: Request, res: Response) => {
+export const getRoomById = async (req: Request, res: Response) => {
+  try {
+    const room = await Room.findByPk(req.params.id, {
+      include: [{ model: User, as: "roomUser" }],
+    });
+
+    res.status(200).json(room);
+  } catch (error) {
+    res.status(400).json({ msg: "error" });
+
+    console.log(error);
+  }
+};
+
+export const getRooms = async (req: Request, res: Response) => {
   const page = parseInt(req.query.page as string);
   const limit = parseInt(req.query.limit as string);
   const region = req.query?.region;
@@ -90,7 +104,7 @@ export const getItems = async (req: Request, res: Response) => {
       where: whereQuery,
       limit,
       offset: page,
-      include: [{ model: User, as: "itemUser" }],
+      include: [{ model: User, as: "roomUser" }],
     });
 
     res.status(200).json(result);
@@ -100,29 +114,29 @@ export const getItems = async (req: Request, res: Response) => {
   }
 };
 
-export const getItemsForUser = async (req: Request, res: Response) => {
-  const { userId } = req.query;
-  console.log(userId);
+export const getRoomsForUser = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+
   try {
-    const items = await Room.findAll({
+    const rooms = await Room.findAll({
       where: {
         userId,
       },
-      include: [{ model: User, as: "itemUser" }],
+      include: [{ model: User, as: "roomUser" }],
     });
 
-    res.status(200).json(items);
+    res.status(200).json(rooms);
   } catch (error) {
     res.status(400).json({ msg: "error" });
     console.log(error);
   }
 };
 
-export const getAllItems = async (req: Request, res: Response) => {
+export const getAllRooms = async (req: Request, res: Response) => {
   try {
-    const items = await Room.findAll();
+    const rooms = await Room.findAll();
 
-    res.status(200).json(items);
+    res.status(200).json(rooms);
   } catch (error) {
     res.status(400).json({ msg: "Error" });
     console.log(error);

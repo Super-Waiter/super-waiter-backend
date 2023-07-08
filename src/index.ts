@@ -16,7 +16,7 @@ useMiddlewares(app);
 export async function start() {
   try {
     await sequelize.authenticate();
-    await sequelize.sync({ force: true });
+    // await sequelize.sync({ force: true });
     console.log("Database connection has been established successfully.");
 
     const server = app.listen(PORT as number, () => {
