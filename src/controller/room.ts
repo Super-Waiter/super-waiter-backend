@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from "express";
 import { Room } from "../model/Room";
 import { User } from "../model/User";
 import { Op } from "sequelize";
 import { ROOM_STATUS, Room as RoomType } from "../types";
+import { ParsedQs } from "qs";
 
 export const createFakeData = async (req: Request, res: Response) => {
   try {
@@ -72,7 +72,10 @@ export const getItems = async (req: Request, res: Response) => {
   const region = req.query?.region;
   const caseType = req.query.case;
 
-  const whereQuery: any = {};
+  const whereQuery: {
+    case?: string | ParsedQs | string[] | ParsedQs[];
+    region?: string | ParsedQs | string[] | ParsedQs[];
+  } = {};
 
   if (caseType && caseType !== "All") {
     whereQuery.case = caseType;
