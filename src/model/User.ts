@@ -11,7 +11,7 @@ import { Room as RoomType } from "../types";
 import { DataTypes } from "sequelize";
 
 @Table
-export class Waiter extends Model {
+export class User extends Model {
   @IsUUID(4)
   @PrimaryKey
   @Column({ defaultValue: DataTypes.UUIDV4 })

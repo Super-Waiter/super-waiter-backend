@@ -1,8 +1,8 @@
-export type FontWeight = 'regular' | 'semibold' | 'bold';
+export type FontWeight = "regular" | "semibold" | "bold";
 
 export enum FOOD_STATUS {
-  IN_STOCK = 'In Stock',
-  OUT_OF_STOCK = 'Out of Stock',
+  IN_STOCK = "In Stock",
+  OUT_OF_STOCK = "Out of Stock",
 }
 
 export type Food = {
@@ -22,7 +22,7 @@ export enum ROOM_STATUS {
 }
 
 export type Room = {
-  id: string;
+  id?: string;
   name: string | number;
   status: ROOM_STATUS;
 };

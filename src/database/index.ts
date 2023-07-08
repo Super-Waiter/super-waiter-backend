@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize-typescript";
 import { Room } from "../model/Room";
-import { Waiter } from "../model/Waiter";
+import { User } from "../model/User";
 
 export const sequelize = new Sequelize({
   database: "super-waiter",
@@ -11,5 +11,5 @@ export const sequelize = new Sequelize({
   host: "localhost",
   // host: 'host.docker.internal',
   define: { freezeTableName: true },
-  models: [Waiter, Room],
+  models: [User, Room],
 });
