@@ -27,9 +27,9 @@ export const createFakeData = async (req: Request, res: Response) => {
 
 export const createItem = async (req: Request, res: Response) => {
   try {
-    const item = await Room.create(req.body);
+    const room = await Room.create(req.body);
 
-    return res.status(201).json(item);
+    return res.status(201).json(room);
   } catch (error) {
     res.status(500).json({ msg: "error" });
     console.log(error);
@@ -130,13 +130,13 @@ export const removeItemById = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
-    const item = await Room.findByPk(id);
+    const room = await Room.findByPk(id);
 
-    if (!item) {
-      return res.status(404).json({ msg: "Item not found" });
+    if (!room) {
+      return res.status(404).json({ msg: "Room not found" });
     }
 
-    await item.destroy();
+    await room.destroy();
 
     res.status(200).json({ msg: "Item removed" });
   } catch (error) {
