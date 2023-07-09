@@ -23,11 +23,14 @@ export class Organisation extends Model {
   contactPhone!: string;
 
   @Column
+  subscriptionId!: string;
+
+  @Column
   owner!: string;
 
   @HasMany(() => User, {
     foreignKey: "organisationId",
-    as: "users",
+    as: "organisationUsers",
   })
   users!: string;
 }
