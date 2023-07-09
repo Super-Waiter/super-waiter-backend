@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
-// import { Room } from "../model/Room";
 import { User } from "../model/User";
 import { Room } from "../model/Room";
-// import firebaseAdmin from "../firebase";
+import firebaseAdmin from "../firebase";
 
-// const firebaseAuth = firebaseAdmin.auth();
+const firebaseAuth = firebaseAdmin.auth();
 
 export const createUser = async (req: Request, res: Response) => {
   try {
