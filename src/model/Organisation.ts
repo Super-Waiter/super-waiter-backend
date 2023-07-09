@@ -23,6 +23,9 @@ export class Organisation extends Model {
   contactPhone!: string;
 
   @Column
+  email!: string;
+
+  @Column
   subscriptionId!: string;
 
   @Column

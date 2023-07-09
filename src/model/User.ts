@@ -8,7 +8,7 @@ import {
   BelongsTo,
 } from "sequelize-typescript";
 import { Room } from "./Room";
-import { Room as RoomType } from "../types";
+import { ROLE, Room as RoomType } from "../types";
 import { DataTypes } from "sequelize";
 import { Organisation } from "./Organisation";
 
@@ -18,6 +18,9 @@ export class User extends Model {
   @PrimaryKey
   @Column({ defaultValue: DataTypes.UUIDV4 })
   id!: string;
+
+  @Column
+  role!: ROLE;
 
   @Column
   firstName!: string;
