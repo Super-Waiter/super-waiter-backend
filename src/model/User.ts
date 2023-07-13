@@ -23,6 +23,9 @@ export class User extends Model {
   role!: ROLE;
 
   @Column
+  phone!: string;
+
+  @Column
   firstName!: string;
 
   @Column

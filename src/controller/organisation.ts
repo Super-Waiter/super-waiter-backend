@@ -1,11 +1,40 @@
 import { Request, Response } from "express";
 import { Organisation } from "../model/Organisation";
+import { Organisation as OrganisationType, User as UserType } from "../types";
+import { User } from "../model/User";
 
 export const createOrganisation = async (req: Request, res: Response) => {
   try {
-    const organisation = await Organisation.create(req.body);
+    const { user, organisation } = req.body;
 
-    return res.status(201).json(organisation);
+    const existingUserEmail = await User.findOne({
+      where: { email: req.body.email },
+    });
+
+    if (existingUserEmail) {
+      return res.status(400).json({
+        message: {
+          en: "User already exists with this email",
+          ru: "Пользователь уже существует с этим электронным адресом",
+          uz: "Foydalanuvchi allaqachon mavjud bu elektron pochta bilan",
+        },
+      });
+    }
+    const userToSave: UserType = { ...user, organisation: organisation.id };
+    const newUser = new User(userToSave);
+
+    const organisationToSave: OrganisationType = {
+      ...organisation,
+      owner: newUser.id,
+    };
+
+    const newOrganisation = new Organisation(organisationToSave);
+    newUser.organisation = newOrganisation.id;
+
+    await newUser.save();
+    await newOrganisation.save();
+
+    return res.status(201).json({ organisation, user });
   } catch (error) {
     res.status(500).json({ msg: "error" });
     console.log(error);

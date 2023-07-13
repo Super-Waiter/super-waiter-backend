@@ -9,16 +9,16 @@ export const createUser = async (req: Request, res: Response) => {
   try {
     User.options.freezeTableName = true;
 
-    const existingUser = await User.findOne({
-      where: { firstName: req.body.firstName },
+    const existingUserEmail = await User.findOne({
+      where: { email: req.body.email },
     });
 
-    if (existingUser) {
+    if (existingUserEmail) {
       return res.status(400).json({
         message: {
-          en: "User already exists with this first name",
-          ru: "Пользователь уже существует с таким именем",
-          uz: "Foydalanuvchi allaqachon mavjud bu ism bilan",
+          en: "User already exists with this email",
+          ru: "Пользователь уже существует с этим электронным адресом",
+          uz: "Foydalanuvchi allaqachon mavjud bu elektron pochta bilan",
         },
       });
     }

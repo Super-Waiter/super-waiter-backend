@@ -6,12 +6,14 @@ export enum ROLE {
 }
 
 export type User = {
-  id: string;
+  id?: string;
   firstName: string;
   lastName: string;
   rooms: Room[];
   organisation: string;
   role: ROLE;
+  email: string;
+  phone: string;
 };
 
 export enum FOOD_STATUS {
