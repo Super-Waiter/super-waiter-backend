@@ -104,6 +104,20 @@ export const getUserByPhoneNumber = async (req: Request, res: Response) => {
   }
 };
 
+export const getUserByEmail = async (req: Request, res: Response) => {
+  try {
+    const user = await User.findOne({
+      where: { email: req.params.email },
+      include: [],
+    });
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ msg: "Error" });
+    console.log(error);
+  }
+};
+
 export const removeUserById = async (req: Request, res: Response) => {
   try {
     // const user = await User.findByPk(req.params.id);

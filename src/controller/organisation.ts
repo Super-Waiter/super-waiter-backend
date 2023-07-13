@@ -6,9 +6,8 @@ import { User } from "../model/User";
 export const createOrganisation = async (req: Request, res: Response) => {
   try {
     const { user, organisation } = req.body;
-
     const existingUserEmail = await User.findOne({
-      where: { email: req.body.email },
+      where: { email: user.email },
     });
 
     if (existingUserEmail) {
