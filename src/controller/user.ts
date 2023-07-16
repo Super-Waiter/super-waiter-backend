@@ -122,7 +122,7 @@ export const removeUserById = async (req: Request, res: Response) => {
   try {
     // const user = await User.findByPk(req.params.id);
     await User.destroy({ where: { id: req.params.id } });
-    await User.destroy({ where: { roomUser: req.params.id } });
+    // await User.destroy({ where: { roomUser: req.params.id } });
 
     // if (user) {
     //   const firebaseUser = await firebaseAuth.getUserByPhoneNumber(user.phone);
@@ -131,6 +131,20 @@ export const removeUserById = async (req: Request, res: Response) => {
     // }
 
     res.status(200).json({ msg: "Success", user: req.params.id });
+  } catch (error) {
+    res.status(400).json({ msg: "Error" });
+    console.log(error);
+  }
+};
+
+export const getUsersByOrganisaton = async (req: Request, res: Response) => {
+  try {
+    const user = await User.findAll({
+      where: { organisation: req.params.organisation },
+      include: [],
+    });
+
+    res.status(200).json(user);
   } catch (error) {
     res.status(400).json({ msg: "Error" });
     console.log(error);

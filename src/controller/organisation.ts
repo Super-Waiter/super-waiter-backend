@@ -19,7 +19,10 @@ export const createOrganisation = async (req: Request, res: Response) => {
         },
       });
     }
-    const userToSave: UserType = { ...user, organisation: organisation.id };
+    const userToSave: UserType = {
+      ...user,
+      organisation: organisation.id,
+    };
     const newUser = new User(userToSave);
 
     const organisationToSave: OrganisationType = {
