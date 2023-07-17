@@ -14,6 +14,7 @@ const connectedUsers: { [userId: string]: Socket } = {};
 
 export const useSocket = (io: SocketType) => {
   io.on("connection", (socket) => {
+    console.log("new user socket user: " + socket.id);
     connectedUsers[socket.id] = socket;
 
     // Handle custom event "user-joined"
