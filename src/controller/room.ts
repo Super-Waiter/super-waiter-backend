@@ -4,6 +4,7 @@ import { User } from "../model/User";
 import { Op } from "sequelize";
 import { ROOM_STATUS, Room as RoomType } from "../types";
 import { ParsedQs } from "qs";
+import { Organisation } from "../model/Organisation";
 
 export const createFakeData = async (req: Request, res: Response) => {
   try {
@@ -27,6 +28,17 @@ export const createFakeData = async (req: Request, res: Response) => {
 
 export const createRoom = async (req: Request, res: Response) => {
   try {
+    const { name } = req.body;
+
+    const checkRoom = await Room.findAll({
+      where: {
+        name,
+      },
+    });
+
+    if (checkRoom.length !== 0)
+      throw Error("Already created room with this name!");
+
     const room = await Room.create(req.body);
 
     return res.status(201).json(room);
@@ -70,6 +82,20 @@ export const getRoomById = async (req: Request, res: Response) => {
   try {
     const room = await Room.findByPk(req.params.id, {
       include: [{ model: User, as: "roomUser" }],
+    });
+
+    res.status(200).json(room);
+  } catch (error) {
+    res.status(400).json({ msg: "error" });
+
+    console.log(error);
+  }
+};
+
+export const getRoomsByOrganisation = async (req: Request, res: Response) => {
+  try {
+    const room = await Room.findAll({
+      where: { organisation: req.params.organisation },
     });
 
     res.status(200).json(room);

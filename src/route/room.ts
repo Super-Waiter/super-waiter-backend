@@ -4,6 +4,7 @@ import {
   createRoom,
   getAllRooms,
   getRoomById,
+  getRoomsByOrganisation,
   getRooms,
   getRoomsBySearch,
   getRoomsForUser,
@@ -20,5 +21,6 @@ router.get("/getAllRooms", getAllRooms);
 router.get("/getRoomsBySearch", getRoomsBySearch);
 router.get("/getRoomsForUser/:userId", getRoomsForUser);
 router.get("/getRoomById/:id", getRoomById);
+router.get("/getRoomsByOrganisation/:organisation", getRoomsByOrganisation);
 
 export default router;
