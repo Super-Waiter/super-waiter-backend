@@ -8,6 +8,7 @@ import {
 } from "sequelize-typescript";
 import { User } from "./User";
 import { DataTypes } from "sequelize";
+import { Client } from "./Client";
 
 @Table
 export class Organisation extends Model {
@@ -36,4 +37,10 @@ export class Organisation extends Model {
     as: "organisationUsers",
   })
   users!: string;
+
+  @HasMany(() => Client, {
+    foreignKey: "organisationId",
+    as: "organisationClients",
+  })
+  client!: string;
 }

@@ -11,6 +11,7 @@ import { Room } from "./Room";
 import { ROLE, Room as RoomType } from "../types";
 import { DataTypes } from "sequelize";
 import { Organisation } from "./Organisation";
+import { Client } from "./Client";
 
 @Table
 export class User extends Model {
@@ -39,6 +40,12 @@ export class User extends Model {
     as: "rooms",
   })
   rooms!: RoomType[];
+
+  @HasMany(() => Client, {
+    foreignKey: "userId",
+    as: "userClients",
+  })
+  client!: string;
 
   @BelongsTo(() => Organisation, {
     foreignKey: "organisationId", // Change the foreignKey option

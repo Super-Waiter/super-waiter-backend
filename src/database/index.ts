@@ -2,6 +2,7 @@ import { Sequelize } from "sequelize-typescript";
 import { Room } from "../model/Room";
 import { User } from "../model/User";
 import { Organisation } from "../model/Organisation";
+import { Client } from "../model/Client";
 
 const POSTGRES_USERNAME = process.env.POSTGRES_USERNAME;
 const POSTGRES_PASSWORD = process.env.POSTGRES_PASSWORD;
@@ -16,5 +17,5 @@ export const sequelize = new Sequelize({
   host: "localhost",
   // host: 'host.docker.internal',
   define: { freezeTableName: true },
-  models: [User, Room, Organisation],
+  models: [User, Room, Organisation, Client],
 });

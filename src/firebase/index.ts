@@ -1,4 +1,6 @@
 import * as admin from "firebase-admin";
+import { initializeApp } from "firebase-admin/app";
+import { getAuth } from "firebase/auth";
 
 const serviceAccount = {
   type: process.env.FIREBASE_SERVICE_ACCOUNT_TYPE,

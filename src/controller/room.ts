@@ -4,7 +4,6 @@ import { User } from "../model/User";
 import { Op } from "sequelize";
 import { ROOM_STATUS, Room as RoomType } from "../types";
 import { ParsedQs } from "qs";
-import { Organisation } from "../model/Organisation";
 
 export const createFakeData = async (req: Request, res: Response) => {
   try {
@@ -14,6 +13,8 @@ export const createFakeData = async (req: Request, res: Response) => {
         const newItem: RoomType = {
           name: `Room ${i}`,
           status: ROOM_STATUS.EMPTY,
+          organisation: "",
+          client: "",
         };
 
         Room.create(newItem);

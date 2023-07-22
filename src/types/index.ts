@@ -14,6 +14,7 @@ export type User = {
   role: ROLE;
   email: string;
   phone: string;
+  client: string;
 };
 
 export enum FOOD_STATUS {
@@ -40,7 +41,9 @@ export enum ROOM_STATUS {
 export type Room = {
   id?: string;
   name: string | number;
+  organisation: string;
   status: ROOM_STATUS;
+  client: string;
 };
 
 export type Organisation = {
@@ -51,4 +54,18 @@ export type Organisation = {
   subscriptionId: string;
   owner: string;
   users: User[];
+  client: string;
+};
+
+export enum CLIENT_STATUS {
+  ACTIVE = 0,
+  UNACTIVE = 1,
+}
+
+export type Client = {
+  id?: string;
+  waiter: string;
+  room: string;
+  status: CLIENT_STATUS;
+  organisation: string;
 };
