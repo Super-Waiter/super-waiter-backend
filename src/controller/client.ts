@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Client as ClientType } from "../types";
 import { Client } from "../model/Client";
+import { Room } from "../model/Room";
 
 export const createClient = async (req: Request, res: Response) => {
   const client = req.body as ClientType;
@@ -49,6 +50,17 @@ export const deleteClientById = async (req: Request, res: Response) => {
 
     await client.destroy();
   } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getClients = async (req: Request, res: Response) => {
+  try {
+    const clients = await Client.findAll({ include: [Room] });
+
+    res.status(200).json(clients);
+  } catch (error) {
+    res.status(400).json({ msg: "Error" });
     console.log(error);
   }
 };

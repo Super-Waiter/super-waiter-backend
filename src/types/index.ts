@@ -59,7 +59,7 @@ export type Organisation = {
 
 export enum CLIENT_STATUS {
   ACTIVE = 0,
-  UNACTIVE = 1,
+  INACTIVE = 1,
 }
 
 export type Client = {

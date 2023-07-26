@@ -1,6 +1,3 @@
-import { Socket } from "socket.io";
-import { ClientToServerEvents, ServerToClientEvents } from "../type";
-import { DefaultEventsMap } from "socket.io/dist/typed-events";
 import { Room } from "../../model/Room";
 import { User } from "../../model/User";
 import {
@@ -11,20 +8,11 @@ import {
 } from "../../types";
 import { Client } from "../../model/Client";
 import { Organisation } from "../../model/Organisation";
-
-type SocketType = Socket<
-  ClientToServerEvents,
-  ServerToClientEvents,
-  DefaultEventsMap,
-  any
->;
-
-const connectedUsers: { [userId: string]: Socket } = {};
+import { SocketType } from "../type";
 
 export const checkQrcodeBySocket = (socket: SocketType) => {
   return socket.on("check-qrCode", async (data) => {
     // Get the recipient's socket by their user ID
-    const recipientSocket = connectedUsers[socket.id];
 
     try {
       const checkRoom = await Room.findOne({ where: { id: data.room } });
@@ -51,12 +39,14 @@ export const checkQrcodeBySocket = (socket: SocketType) => {
         const client = await Client.create(newClient);
         await Room.update({ ...updatedRoom }, { where: { id: data.room } });
 
-        recipientSocket.emit("qrCode-checked", socket.id);
+        socket.emit("qrCode-checked", socket.id);
 
         // Broadcast the event to all connected users except the sender
-        recipientSocket.broadcast.emit("client-created", client);
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        recipientSocket.broadcast.emit("room-busy", checkRoom.id);
+        console.log(client.dataValues);
+
+        socket.broadcast.emit("client-created", client.dataValues);
+        socket.emit("client-created", client.dataValues);
+        socket.broadcast.emit("room-busy", checkRoom.id);
       }
     } catch (error) {
       console.log(error);
